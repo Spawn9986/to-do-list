@@ -11,7 +11,7 @@
 <h2>Project Screenshots:</h2>
 
 <div align="center">
-<img src="" alt="project-flow-chart" width="547" height="436"/>
+<img src="https://github.com/Spawn9986/to-do-list/blob/main/screenshot/to-do-list.png" alt="project-flow-chart" width="708" height="430"/>
 </div>
 
 <h2>💻 Built with</h2>
