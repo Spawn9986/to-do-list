@@ -79,6 +79,17 @@ async function updatePage(fetchedData, shouldRefresh = true) {
       taskInput.focus(); // Set focus to the input field when activated
     });
 
+    // Add click event listener to the checkbox
+    checkbox.addEventListener("click", function () {
+      if (checkbox.checked) {
+        // Apply the line-through style when checkbox is checked
+        taskText.style.textDecoration = "line-through";
+      } else {
+        // Remove the line-through style when checkbox is unchecked
+        taskText.style.textDecoration = "none";
+      }
+    });
+
     taskItem.appendChild(taskText);
 
     taskList.appendChild(taskItem);
