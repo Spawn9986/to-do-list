@@ -41,7 +41,7 @@ app.post("/tasks", async function createTask(req, res) {
   }
 });
 
-app.delete("/tasks", async function deleteTask(req, res) {
+app.delete("/tasks/:id", async function deleteTask(req, res) {
   const taskId = req.params.id;
 
   try {

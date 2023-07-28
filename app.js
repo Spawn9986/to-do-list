@@ -4,12 +4,16 @@ const taskList = document.querySelector(".taskList");
 
 const serverUrl = "http://localhost:3000";
 
+let fetchedData = [];
+
 //Make an API call to the server using fetch (GET method)
 async function fetchTasks() {
   try {
     // send a GET request to fetch tasks from the server
     const response = await fetch(`${serverUrl}/tasks`);
     const data = await response.json();
+
+    fetchedData = data;
 
     return data;
   } catch (error) {
@@ -18,8 +22,8 @@ async function fetchTasks() {
   }
 }
 
-function updatePage(fetchedData) {
-  const taskListContainer = document.querySelector(".taskList");
+async function updatePage(fetchedData, shouldRefresh = true) {
+  const taskList = document.querySelector(".taskList");
   // clear the current task list
   taskList.innerText = "";
 
@@ -38,9 +42,12 @@ function updatePage(fetchedData) {
     icon.className = "fa-solid fa-trash-can";
     icon.style.color = "#ed0707";
 
+    icon.addEventListener("click", function () {
+      deleteTask(taskObj.id);
+    });
+
     taskItem.appendChild(checkboxContainer);
     taskItem.appendChild(icon);
-
     taskItem.appendChild(checkbox);
 
     //taskItem.textContent = taskObj.task; --> this method overwrites the checkbox you just appended.
@@ -50,14 +57,9 @@ function updatePage(fetchedData) {
 
     taskList.appendChild(taskItem);
   });
-}
 
-async function fetchAndRefreshPage() {
-  try {
-    const data = await fetchTasks();
-    updatePage(data);
-  } catch (error) {
-    console.error("Error updating page:", error);
+  if (shouldRefresh) {
+    await fetchAndRefreshPage();
   }
 }
 
@@ -83,9 +85,9 @@ async function createTask() {
   }
 }
 
-async function deleteTask() {
+async function deleteTask(taskId) {
   try {
-    const response = await fetch(`${serverUrl}/tasks`, {
+    const response = await fetch(`${serverUrl}/tasks/${taskId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -95,12 +97,27 @@ async function deleteTask() {
     const data = await response.json();
 
     if (response.ok) {
-      updatePage([data.data]);
+      // Remove the deleted task from the fetchedData array
+      fetchedData = fetchedData.filter((task) => task.id !== taskId);
+
+      // Update the page without refreshing (shouldRefresh = false)
+      updatePage(fetchedData, false);
     } else {
-      console.error("Error createing task:", data.message);
+      console.error("Error deleting task:", data.message);
     }
   } catch (error) {
-    console.error("Error createing task:", error);
+    console.error("Error deleting task:", error);
+  }
+}
+
+async function fetchAndRefreshPage() {
+  try {
+    const data = await fetchTasks();
+
+    taskList.textContent = "";
+    updatePage(data, false);
+  } catch (error) {
+    console.error("Error updating page:", error);
   }
 }
 
