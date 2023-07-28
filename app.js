@@ -33,12 +33,7 @@ function updatePage(fetchedData) {
     checkbox.value = 1;
     checkbox.name = "todo[]";
 
-    const customCheckbox = document.createElement("span");
-
-    checkboxContainer.appendChild(checkbox);
-    checkboxContainer.appendChild(customCheckbox);
-
-    //taskItem.appendChild(checkboxContainer);
+    taskItem.appendChild(checkboxContainer);
 
     taskItem.appendChild(checkbox);
 
