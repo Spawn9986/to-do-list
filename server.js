@@ -41,6 +41,29 @@ app.post("/tasks", async function createTask(req, res) {
   }
 });
 
+app.delete("/tasks", async function deleteTask(req, res) {
+  const taskId = req.params.id;
+
+  try {
+    const queryResult = await pool.query(
+      "DELETE FROM tasklist WHERE id = $1 RETURNING *",
+      [taskId]
+    );
+
+    if (queryResult.rowCount === 0) {
+      res.status(404).json({ error: "Task not found" });
+    } else {
+      res.json({
+        message: "Task added successfully",
+        data: queryResult.rows[0],
+      });
+    }
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
 app.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
 });
