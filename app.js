@@ -24,7 +24,29 @@ function updatePage(fetchedData) {
 
   fetchedData.forEach(function (taskObj) {
     const taskItem = document.createElement("li");
-    taskItem.textContent = taskObj.task;
+
+    const checkboxContainer = document.createElement("label");
+    checkboxContainer.classList.add("checkbox-container");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = 1;
+    checkbox.name = "todo[]";
+
+    const customCheckbox = document.createElement("span");
+
+    checkboxContainer.appendChild(checkbox);
+    checkboxContainer.appendChild(customCheckbox);
+
+    //taskItem.appendChild(checkboxContainer);
+
+    taskItem.appendChild(checkbox);
+
+    //taskItem.textContent = taskObj.task; --> this method overwrites the checkbox you just appended.
+    const taskText = document.createElement("span");
+    taskText.textContent = taskObj.task;
+    taskItem.appendChild(taskText);
+
     taskList.appendChild(taskItem);
   });
 }
