@@ -64,6 +64,33 @@ app.delete("/tasks/:id", async function deleteTask(req, res) {
   }
 });
 
+app.put("/tasks/:id", async function updateTask(req, res) {
+  const taskId = req.params.id;
+  const updatedTask = {
+    task: req.body.task,
+    completed: req.body.completed,
+  };
+
+  try {
+    const queryResult = await pool.query(
+      "UPDATE tasklist SET task = $1, complete = $2 WHERE id = $3 RETURNING *",
+      [updatedTask.task, updatedTask.completed, taskId]
+    );
+
+    if (queryResult.rowCount === 0) {
+      res.status(404).json({ error: "Task not found" });
+    } else {
+      res.json({
+        message: "Task updated successfully",
+        data: queryResult.rows[0],
+      });
+    }
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
 app.listen(port, function () {
   console.log(`Server listening on http://localhost:${port}`);
 });

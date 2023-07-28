@@ -25,7 +25,7 @@ async function fetchTasks() {
 async function updatePage(fetchedData, shouldRefresh = true) {
   const taskList = document.querySelector(".taskList");
   // clear the current task list
-  taskList.innerText = "";
+  taskList.innerHTML = "";
 
   fetchedData.forEach(function (taskObj) {
     const taskItem = document.createElement("li");
@@ -53,6 +53,32 @@ async function updatePage(fetchedData, shouldRefresh = true) {
     //taskItem.textContent = taskObj.task; --> this method overwrites the checkbox you just appended.
     const taskText = document.createElement("span");
     taskText.textContent = taskObj.task;
+
+    taskText.addEventListener("click", function () {
+      const taskInput = document.createElement("input");
+      taskInput.type = "text";
+      taskInput.value = taskObj.task;
+
+      // Handle blur event to save the updated task text
+      taskInput.addEventListener("blur", function () {
+        const updatedTaskText = taskInput.value.trim();
+        if (updatedTaskText !== taskObj.task) {
+          // Call the updateTaskItem function to update the task text in the database and on the page
+          updateTaskItem(taskObj.id, updatedTaskText);
+        }
+
+        // Revert back to the original taskText after editing
+        taskItem.removeChild(taskInput);
+        taskText.textContent = updatedTaskText;
+        taskText.style.display = "inline"; // Display the taskText again
+      });
+
+      // Hide the taskText while editing
+      taskText.style.display = "none";
+      taskItem.appendChild(taskInput);
+      taskInput.focus(); // Set focus to the input field when activated
+    });
+
     taskItem.appendChild(taskText);
 
     taskList.appendChild(taskItem);
@@ -107,6 +133,36 @@ async function deleteTask(taskId) {
     }
   } catch (error) {
     console.error("Error deleting task:", error);
+  }
+}
+
+// Function to update the task item in the task list
+async function updateTaskItem(taskId, updatedTaskText) {
+  try {
+    const response = await fetch(`${serverUrl}/tasks/${taskId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ task: updatedTaskText }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Find the updated task in the fetchedData array and update its task text
+      const updatedTask = fetchedData.find((task) => task.id === taskId);
+      if (updatedTask) {
+        updatedTask.task = updatedTaskText;
+      }
+
+      // Update the page without refreshing (shouldRefresh = false)
+      updatePage(fetchedData, false);
+    } else {
+      console.error("Error updating task:", data.message);
+    }
+  } catch (error) {
+    console.error("Error updating task:", error);
   }
 }
 
