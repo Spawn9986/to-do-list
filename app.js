@@ -19,6 +19,7 @@ async function fetchTasks() {
 }
 
 function updatePage(fetchedData) {
+  const taskListContainer = document.querySelector(".taskList");
   // clear the current task list
   taskList.innerText = "";
 
@@ -33,7 +34,12 @@ function updatePage(fetchedData) {
     checkbox.value = 1;
     checkbox.name = "todo[]";
 
+    const icon = document.createElement("i");
+    icon.className = "fa-solid fa-trash-can";
+    icon.style.color = "#ed0707";
+
     taskItem.appendChild(checkboxContainer);
+    taskItem.appendChild(icon);
 
     taskItem.appendChild(checkbox);
 
@@ -59,6 +65,28 @@ async function createTask() {
   try {
     const response = await fetch(`${serverUrl}/tasks`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ task: taskInput.value }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      updatePage([data.data]);
+    } else {
+      console.error("Error createing task:", data.message);
+    }
+  } catch (error) {
+    console.error("Error createing task:", error);
+  }
+}
+
+async function deleteTask() {
+  try {
+    const response = await fetch(`${serverUrl}/tasks`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
