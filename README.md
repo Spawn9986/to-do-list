@@ -6,7 +6,7 @@
 <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/Spawn9986/to-do-list?logo=GitHub&style=flat-square"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/Spawn9986/to-do-list?logo=Github&style=flat-square"> <img alt="GitHub issues" src="https://img.shields.io/github/issues/Spawn9986/to-do-list?logo=GitHub&style=flat-square"> <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Spawn9986/to-do-list?logo=GitHub&style=flat-square">
 </p>
 
-<p id="description">Full Stack Application</p>
+<p id="description">Full Stack Application that encompasses full CRUD (Create, Read, Update, and Delete) cabilities allowing the user to fetch their current set of tasks using and API call from the client to the server built with node and express. The server then communicates with a postgreSQL database giving the user persistent storage of their data and the ability to make live changes (add, edit, and delete tasks).</p>
 
 <h2>Project Screenshots:</h2>
 
