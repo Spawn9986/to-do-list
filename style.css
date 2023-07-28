@@ -4,8 +4,12 @@ font-family: 'Oxygen', sans-serif;
 font-family: 'Oxygen Mono', monospace; 
 */
 
-html {
+* {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: 1.3rem;
+  font-family: "Open Sans", sans-serif;
 }
 
 *,
@@ -15,11 +19,15 @@ html {
 }
 
 body {
-  padding: 0;
-  margin: 0;
-  font-size: 1.3rem;
-  font-family: "Open Sans", sans-serif;
-  background-color: rgba(245, 245, 245, 0.6);
+  width: 100%;
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 8, 51, 0.4), rgba(0, 8, 51, 0.4)),
+    url("https://images.unsplash.com/photo-1564473185935-58113cba1e80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h1,
@@ -29,13 +37,13 @@ h3 {
 }
 
 .main-container {
-  margin: 6% 30%;
   padding: 80px;
   border: 1px solid grey;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 20px;
-  font-family: "Oxygen Mono", monospace;
-  background-color: rgba(224, 180, 180, 0.25);
+  font-family: "Oxygen", sans-serif;
+  background-color: rgba(224, 180, 180, 0.15);
+  color: whitesmoke;
 }
 
 h1 {
