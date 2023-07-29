@@ -23,3 +23,7 @@ Technologies used in the project:
 - Node.js
 - Express.js
 - PostgreSQL
+
+<h2>👨‍💻 See More</h2>
+
+<a href="https://www.youtube.com/watch?v=iI7lWXHqrlo">Video Demo</a>
