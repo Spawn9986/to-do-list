@@ -1,15 +1,14 @@
 const taskForm = document.querySelector(".taskForm");
 const taskInput = document.querySelector(".taskInput");
 const taskList = document.querySelector(".taskList");
+const port = 3000;
 
-const serverUrl = "http://localhost:3000";
+const serverUrl = `http://localhost:${port}`;
 
 let fetchedData = [];
 
-//Make an API call to the server using fetch (GET method)
 async function fetchTasks() {
   try {
-    // send a GET request to fetch tasks from the server
     const response = await fetch(`${serverUrl}/tasks`);
     const data = await response.json();
 
@@ -23,7 +22,6 @@ async function fetchTasks() {
 }
 
 async function updatePage(fetchedData, shouldRefresh = true) {
-  const taskList = document.querySelector(".taskList");
   // clear the current task list
   taskList.innerHTML = "";
 
